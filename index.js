@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 // route
 import staffApiRoute from './ApiRoutes/staff.js';
+// middleware
+import { responseFormat } from './middleware/Response.js'; 
 
 dotenv.config();
 const app = express();
@@ -34,5 +36,7 @@ app.listen(port, () => {
     console.log(`app listening on port ${port}`);
 })
 
+app.use(responseFormat);
+app.use(express.json());
 // middlewares
 app.use('/api/v1/staff', staffApiRoute);
