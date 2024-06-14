@@ -5,7 +5,6 @@ export const responseFormat = (req, res, next) => {
             Message: message,
             Response: data
         };
-        console.log(data);
         res.status(code).json(response);
     };
     next();

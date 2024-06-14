@@ -2,9 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 // route
-import staffApiRoute from './ApiRoutes/staff.js';
+import employeeInfoApiRoute from './ApiRoutes/employeeInfo.js';
+import employeeOutfitListAPiRoute from './ApiRoutes/employeeOutfitList.js';
+import employeeOutfitDetailAPiRoute from './ApiRoutes/employeeOutfitDetail.js';
 // middleware
-import { responseFormat } from './middleware/Response.js'; 
+import { responseFormat } from './middleware/Response.js';
 
 dotenv.config();
 const app = express();
@@ -39,4 +41,6 @@ app.listen(port, () => {
 app.use(responseFormat);
 app.use(express.json());
 // middlewares
-app.use('/api/v1/staff', staffApiRoute);
+app.use('/api/v1/employee', employeeInfoApiRoute);
+app.use('/api/v1/list', employeeOutfitListAPiRoute);
+app.use('/api/v1/detail', employeeOutfitDetailAPiRoute);
