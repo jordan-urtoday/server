@@ -5,8 +5,16 @@ import EmployeeOutfitList from '../models/EmployeeOutfitList.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+    const filter = {};
+    if (req.query.EmployeeName) {
+        filter.EmployeeName = req.query.EmployeeName
+    }
+    if (req.query.ShopID) {
+        filter.ShopID = req.query.ShopID;
+    }
+
     try {
-        const employeeList = await EmployeeInfo.find();
+        const employeeList = await EmployeeInfo.find(filter);
         res.formatResponse(employeeList);
     } catch(error) {
         res.formatResponse(null, 500, 'Fail');
