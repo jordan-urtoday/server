@@ -58,6 +58,26 @@ router.put('/:id',async (req, res) => {
     }
 })
 
+router.post('/add', async (req, res) => {
+    const { id, ...employeeData } = req.body;
+    try {
+        if (id) {
+            const updateEmployee = await EmployeeInfo.findByIdAndUpdate(id, {$set: employeeData}, {new:true});
+            if (!updateEmployee) {
+                res.formatResponse(null, 404, '找不到指定員工');
+                return;
+            }
+            res.formatResponse(updateEmployee);
+        } else {
+            const newEmployee = new EmployeeInfo(employeeData);
+            const saveEmployee = await newEmployee.save();
+            res.formatResponse(saveEmployee);
+        }
+    } catch (error) {
+        res.formatResponse(error, 500, '操作失敗，請確認格式');
+    }
+})
+
 router.delete('/:id', async (req, res) => {
     const id = req.params.id;
     try {
