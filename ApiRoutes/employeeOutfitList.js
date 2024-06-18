@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/find/:id', async (req, res) => {
+    const employeeId = req.params.id;
+    try {
+        const employeeList = await EmployeeOutfitList.find({ EmployeeID: employeeId });
+        res.formatResponse(employeeList);
+    } catch(error) {
+        res.formatResponse(null, 500, 'Fail'); 
+    }
+})
+
 router.post('/', async (req, res) => {
     const list = new EmployeeOutfitList({
         EmployeeID: req.body.EmployeeID,
