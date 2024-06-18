@@ -4,7 +4,7 @@ const EmployeeInfoSchema = new mongoose.Schema({
     EmployeeID: {
         type: Number,
         required: true,
-        unique: true,
+        unique: false,
     },
     EmployeeName: {
         type: String,
@@ -32,15 +32,14 @@ const EmployeeInfoSchema = new mongoose.Schema({
     },
     EmployeeDescription: {
         type: String,
-        required: false
+        required: false,
     }
 })
 
-EmployeeInfoSchema.pre('save', async function(next) {
-    if (!this.EmployeeID) {
-        // 查询最大的 staff_id
-        const maxStaff = await mongoose.model('EmployeeInfo').findOne().sort({EmployeeID: -1});
-        this.EmployeeID = maxStaff ? maxStaff.EmployeeID + 1 : 1;
+EmployeeInfoSchema.pre('validate', async function(next) {
+    if (this.isNew && !this.EmployeeID) {
+        const maxEmployee = await mongoose.model('EmployeeInfo').findOne().sort({ EmployeeID: -1 });
+        this.EmployeeID = maxEmployee ? maxEmployee.EmployeeID + 1 : 1;
     }
     next();
 });

@@ -69,6 +69,7 @@ router.post('/add', async (req, res) => {
             }
             res.formatResponse(updateEmployee);
         } else {
+            console.log(employeeData);
             const newEmployee = new EmployeeInfo(employeeData);
             const saveEmployee = await newEmployee.save();
             res.formatResponse(saveEmployee);
