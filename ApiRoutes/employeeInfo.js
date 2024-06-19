@@ -91,7 +91,9 @@ router.post('/add', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     const id = req.params.id;
     try {
-        await EmployeeInfo.findByIdAndDelete(id);
+        await EmployeeInfo.findOneAndDelete({ EmployeeID: id });
+        await EmployeeOutfitList.deleteMany({ EmployeeID: id });
+        await EmployeeOutfitDetail.deleteMany({ EmployeeID: id });
         res.formatResponse(null, 200, '資料刪除成功');
     } catch(error) {
         res.formatResponse(error, 500, '刪除失敗，請確認是否有此id');
