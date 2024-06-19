@@ -21,8 +21,14 @@ router.get('/', async (req, res) => {
 
 router.get('/find/:id', async (req, res) => {
     const employeeId = req.params.id;
+    const filter = {
+        EmployeeID: employeeId,
+    };
+    if (req.query.ShopID) {
+        filter.ShopID = req.query.ShopID;
+    }
     try {
-        const employeeList = await EmployeeOutfitList.find({ EmployeeID: employeeId });
+        const employeeList = await EmployeeOutfitList.find(filter);
         res.formatResponse(employeeList);
     } catch(error) {
         res.formatResponse(null, 500, 'Fail'); 
