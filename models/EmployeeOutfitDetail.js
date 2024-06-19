@@ -33,6 +33,10 @@ const EmployeeOutfitDetailSchema = new mongoose.Schema({
         type: String,
         requred: true,
     },
+    ProductName: {
+        type: String,
+        requred: true,
+    },
     OutfitPostImages: {
         type: Array,
         required: true,
