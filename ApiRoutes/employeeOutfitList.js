@@ -28,30 +28,58 @@ router.post('/', async (req, res) => {
     const employeeId = req.query.EmployeeID;
     try {
         const getEmployee = await EmployeeInfo.find({ EmployeeID: employeeId });
-
+        const existingOutlist = await EmployeeOutfitList.findOne({ EmployeeID: employeeId, ProductBarcode: req.body.ProductBarcode });
+        let saveList, saveDetail;
         if (!getEmployee) {
             return res.formatResponse(null, 404, '找不到指定員工');
         }
-        console.log(getEmployee);
+
         const employeeObj = {
             EmployeeID: getEmployee[0].EmployeeID,
             EmployeeName: getEmployee[0].EmployeeName,
             EmployeeHeight: getEmployee[0].EmployeeHeight,
             EmployeePhoto: getEmployee[0].EmployeePhoto,
         };
-        const list = new EmployeeOutfitList({
-            ShopName: req.body.ShopName,
-            ShopID: req.body.ShopID,
-            ProductBarcode: req.body.ProductBarcode,
-            ProductSize: req.body.ProductSize,
-            OutfitPostImages: req.body.OutfitPostImages,
-            ...employeeObj
-        });
-        const detail = new EmployeeOutfitDetail({...req.body, ...employeeObj});
-        console.log(employeeObj);
-        console.log({...req.body, ...employeeObj});
-        const saveList = await list.save();
-        const saveDetail = await detail.save();
+
+        if (existingOutlist) {
+            saveList = await EmployeeOutfitList.findOneAndUpdate(
+                { EmployeeID: employeeId, ProductBarcode: req.body.ProductBarcode },
+                {
+                    $set: {
+                        ShopName: req.body.ShopName,
+                        ShopID: req.body.ShopID,
+                        ProductSize: req.body.ProductSize,
+                        ProductName: req.body.ProductName,
+                        OutfitPostImages: req.body.OutfitPostImages,
+                        ...employeeObj
+                    }
+                },
+                { new: true }
+            );
+            saveDetail = await EmployeeOutfitDetail.findOneAndUpdate(
+                { EmployeeID: employeeId, ProductBarcode: req.body.ProductBarcode },
+                { 
+                    $set: {
+                        ...req.body,
+                        ...employeeObj,
+                    }
+                },
+                { new: true }
+            )
+        } else {
+            const list = new EmployeeOutfitList({
+                ShopName: req.body.ShopName,
+                ShopID: req.body.ShopID,
+                ProductBarcode: req.body.ProductBarcode,
+                ProductSize: req.body.ProductSize,
+                ProductName: req.body.ProductName,
+                OutfitPostImages: req.body.OutfitPostImages,
+                ...employeeObj
+            });
+            const detail = new EmployeeOutfitDetail({...req.body, ...employeeObj});
+            saveList = await list.save();
+            saveDetail = await detail.save();
+        }
         res.formatResponse(saveDetail);
     } catch (error) {
         res.formatResponse(error, 500, '資料上傳錯誤，請確認格式');
