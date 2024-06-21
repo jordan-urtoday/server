@@ -28,8 +28,7 @@ router.get('/find/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const getEmployee = await EmployeeInfo.findById(id);
-        const list = await EmployeeOutfitList.find({ EmployeeID: getEmployee.EmployeeID });
-        res.formatResponse(list);
+        res.formatResponse(getEmployee);
     } catch(error) {
         console.log(error);
         res.formatResponse(null, 500, '找不到資料，請檢查是否有此id');
