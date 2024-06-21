@@ -39,4 +39,4 @@ const BrandSchema = new mongoose.Schema({
     },
 })
 
-export default mongoose.model("brands", BrandSchema, 'brands');
+export default mongoose.model("brands", BrandSchema, 'BrandList');
