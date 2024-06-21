@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     if (req.query.BranchID) {
         query['Brand.BranchID'] = req.query.BranchID;
     }
-
+    console.log(query);
     try {
         const employeeList = await EmployeeInfo.find(query);
         res.formatResponse(employeeList);
@@ -28,20 +28,8 @@ router.get('/find/:id', async (req, res) => {
     const id = req.params.id;
     try {
         const getEmployee = await EmployeeInfo.findById(id);
-        const list = await EmployeeOutfitList.find({ EmployeeID: getEmployee.EmployeeID }).select('ProductBarcode ProductSize OutfitPostImages -_id');
-        const { EmployeeID, EmployeeName, EmployeeHeight, EmployeePhoto, ShopName, ShopID, EmployeeSNS, EmployeeDescription } = getEmployee;
-        let combineResult = {
-            EmployeeID,
-            EmployeeName,
-            EmployeeHeight,
-            EmployeePhoto,
-            ShopName,
-            ShopID,
-            EmployeeSNS,
-            EmployeeDescription,
-            OutfitList: list,
-        }
-        res.formatResponse(combineResult);
+        const list = await EmployeeOutfitList.find({ EmployeeID: getEmployee.EmployeeID });
+        res.formatResponse(list);
     } catch(error) {
         console.log(error);
         res.formatResponse(null, 500, '找不到資料，請檢查是否有此id');

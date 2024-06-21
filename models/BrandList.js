@@ -30,7 +30,7 @@ const BrandSchema = new mongoose.Schema({
         requried: true
     },
     BrandID: {
-        type: Number,
+        type: String,
         requried: true
     },
     Branch: {
