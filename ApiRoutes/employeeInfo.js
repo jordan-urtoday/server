@@ -1,7 +1,6 @@
 import express from 'express';
 import EmployeeInfo from '../models/EmployeeInfo.js';
 import EmployeeOutfitList from '../models/EmployeeOutfitList.js';
-import EmployeeOutfitDetail from '../models/EmployeeOutfitDetail.js';
 
 const router = express.Router();
 
@@ -96,7 +95,6 @@ router.delete('/:id', async (req, res) => {
     try {
         await EmployeeInfo.findOneAndDelete({ EmployeeID: id });
         await EmployeeOutfitList.deleteMany({ EmployeeID: id });
-        await EmployeeOutfitDetail.deleteMany({ EmployeeID: id });
         res.formatResponse(null, 200, '資料刪除成功');
     } catch(error) {
         res.formatResponse(error, 500, '刪除失敗，請確認是否有此id');

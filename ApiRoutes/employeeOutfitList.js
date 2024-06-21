@@ -1,7 +1,6 @@
 import express from 'express';
 import EmployeeInfo from '../models/EmployeeInfo.js';
 import EmployeeOutfitList from '../models/EmployeeOutfitList.js';
-import EmployeeOutfitDetail from '../models/EmployeeOutfitDetail.js';
 
 const router = express.Router();
 
