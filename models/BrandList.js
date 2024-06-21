@@ -29,6 +29,14 @@ const BrandSchema = new mongoose.Schema({
         type: String,
         requried: true
     },
+    BrandID: {
+        type: Number,
+        requried: true
+    },
+    Branch: {
+        type: Array,
+        requried: true
+    },
 })
 
 export default mongoose.model("brands", BrandSchema, 'brands');

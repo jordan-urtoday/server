@@ -18,14 +18,6 @@ const EmployeeInfoSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    ShopName: {
-        type: String,
-        required: true,
-    },
-    ShopID: {
-        type: String,
-        required: true,
-    },
     EmployeeSNS: {
         type: Object,
         required: false,
@@ -33,6 +25,10 @@ const EmployeeInfoSchema = new mongoose.Schema({
     EmployeeDescription: {
         type: String,
         required: false,
+    },
+    Brand: {
+        type: Array,
+        required: true,
     }
 })
 

@@ -6,16 +6,19 @@ import EmployeeOutfitDetail from '../models/EmployeeOutfitDetail.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const filter = {};
+    const query = {};
     if (req.query.EmployeeName) {
-        filter.EmployeeName = req.query.EmployeeName
+        query.EmployeeName = req.query.EmployeeName
     }
-    if (req.query.ShopID) {
-        filter.ShopID = req.query.ShopID;
+    if (req.query.BrandID) {
+        query['Brand.BrandID'] = req.query.BrandID;
+    }
+    if (req.query.BranchID) {
+        query['Brand.BranchID'] = req.query.BranchID;
     }
 
     try {
-        const employeeList = await EmployeeInfo.find(filter);
+        const employeeList = await EmployeeInfo.find(query);
         res.formatResponse(employeeList);
     } catch(error) {
         res.formatResponse(null, 500, 'Fail');

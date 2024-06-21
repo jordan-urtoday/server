@@ -4,6 +4,7 @@ const EmployeeOutfitListSchema = new mongoose.Schema({
     EmployeeID: {
         type: Number,
         required: true,
+        unique: false,
     },
     EmployeeName: {
         type: String,
@@ -17,26 +18,38 @@ const EmployeeOutfitListSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    ShopName: {
-        type: String,
-        required: true,
-    },
-    ShopID: {
-        type: String,
-        required: true,
-    },
-    ProductBarcode: {
-        type: String,
-        required: true,
-    },
-    ProductSize: {
-        type: String,
-        requred: true,
-    },
     OutfitPostImages: {
         type: Array,
         required: true,
+    },
+    OutfitPostDescription: {
+        type: String,
+        requred: true,
+    },
+    OutfitPostTags: {
+        type: Array,
+        required: true,
+    },
+    OutfitPostItems: {
+        type: Array,
+        required: true,
+    },
+    Brand: {
+        type: Object,
+        required: true,
+    },
+    OutfitID: {
+        type: Number,
+        required: true,
     }
 })
+
+EmployeeOutfitListSchema.pre('validate', async function(next) {
+    if (this.isNew && !this.OutfitID) {
+        const maxOutfit = await mongoose.model('EmployeeOutfitList').findOne().sort({ OutfitID: -1 });
+        this.OutfitID = maxOutfit ? maxOutfit.OutfitID + 1 : 1;
+    }
+    next();
+});
 
 export default mongoose.model("EmployeeOutfitList", EmployeeOutfitListSchema, 'employeeOutfitList');

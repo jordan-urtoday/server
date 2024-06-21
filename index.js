@@ -4,10 +4,8 @@ import mongoose from 'mongoose';
 // route
 import employeeInfoApiRoute from './ApiRoutes/employeeInfo.js';
 import employeeOutfitListAPiRoute from './ApiRoutes/employeeOutfitList.js';
-import employeeOutfitDetailAPiRoute from './ApiRoutes/employeeOutfitDetail.js';
-import shopListApiRoute from './ApiRoutes/shopList.js';
 import productListApiRoute from './ApiRoutes/productList.js';
-import brandsApiRoute from './ApiRoutes/brands.js';
+import brandListApiRoute from './ApiRoutes/brandsList.js';
 // middleware
 import { responseFormat } from './middleware/Response.js';
 
@@ -46,7 +44,5 @@ app.use(express.json());
 // middlewares
 app.use('/api/v1/employee', employeeInfoApiRoute);
 app.use('/api/v1/list', employeeOutfitListAPiRoute);
-app.use('/api/v1/detail', employeeOutfitDetailAPiRoute);
-app.use('/api/v1/shops', shopListApiRoute);
 app.use('/api/v1/products', productListApiRoute);
-app.use('/api/v1/brands', brandsApiRoute);
+app.use('/api/v1/brands', brandListApiRoute);

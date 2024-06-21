@@ -1,12 +1,12 @@
 import express from 'express';
-import ShopList from '../models/ShopList.js';
+import BrandList from '../models/BrandList.js';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const shopList = await ShopList.find();
-        res.formatResponse(shopList); 
+        const brands = await BrandList.find();
+        res.formatResponse(brands); 
     } catch(error) {
         res.formatResponse(null, 500, 'Fail'); 
     }
